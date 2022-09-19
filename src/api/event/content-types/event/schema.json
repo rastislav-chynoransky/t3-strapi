@@ -13,39 +13,35 @@
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string",
-      "required": false
-    },
-    "description": {
       "type": "text"
     },
     "type": {
       "type": "string"
     },
     "start": {
-      "type": "datetime",
-      "required": true
+      "type": "datetime"
     },
     "price": {
       "type": "decimal",
       "min": 0
     },
-    "image": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+    "facebook_title": {
+      "type": "text"
     },
-    "artists": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::artist.artist",
-      "mappedBy": "events"
+    "facebook_description": {
+      "type": "richtext"
+    },
+    "canceled": {
+      "type": "boolean"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "facebook_id": {
+      "type": "uid"
+    },
+    "image": {
+      "type": "string"
     }
   }
 }
