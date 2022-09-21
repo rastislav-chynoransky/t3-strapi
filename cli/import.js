@@ -109,6 +109,7 @@ strapi()
         // await instance.db.query('api::event.event').deleteMany()
 
         const params = {
+            time_filter: 'upcoming',
             fields: [
                 'cover',
                 'description',
