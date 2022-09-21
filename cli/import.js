@@ -19,7 +19,6 @@ async function importData(response) {
             start: event.start_time,
             canceled: event.is_canceled,
             image: event.cover.source,
-            publishedAt,
         }
 
         if (entry) {
@@ -32,6 +31,7 @@ async function importData(response) {
                     ...data,
                     facebook_id: event.id,
                     type: parseType(event),
+                    publishedAt,
                     price: parsePrice(event.description),
                 },
             })
@@ -47,12 +47,12 @@ function parseTitle(title) {
         .replace(/\bzhluk\b/i, '')
         .replace(/t3xethno:\s*/i, '')
         .replace(/\btrammed\b/i, '')
-        .replaceAll(/\s+\([a-z]{2,3}\)/gi, '')
+        .replace(/\s+\([a-z]{2,3}\)/gi, '')
         .replace(/@.*$/, '')
-        .replaceAll(/(\p{L})&(\p{L})/gu, '$1 & $2')
-        .replaceAll(/(.*?):\s+(.*?)/g, '$1:\n$2')
-        .replaceAll(/(.*?),\s+(.*?)/g, '$1,\n$2')
-        .replaceAll(/(.*?)\s+\/\s+(.*?)/g, '$1,\n$2')
+        .replace(/(\p{L})&(\p{L})/gu, '$1 & $2')
+        .replace(/(.*?):\s+(.*?)/g, '$1:\n$2')
+        .replace(/(.*?),\s+(.*?)/g, '$1,\n$2')
+        .replace(/(.*?)\s+\/\s+(.*?)/g, '$1,\n$2')
         .replace(/^[\s|:-]+/, '')
         .replace(/[\s|:-]+$/, '')
         .replace(/w y m e/, 'w\u202Fy\u202Fm\u202Fe')
@@ -106,7 +106,7 @@ strapi()
     .load()
     .then(async strapiInstance => {
         instance = strapiInstance
-        await instance.db.query('api::event.event').deleteMany()
+        // await instance.db.query('api::event.event').deleteMany()
 
         const params = {
             fields: [
