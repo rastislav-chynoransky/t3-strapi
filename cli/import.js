@@ -1,6 +1,11 @@
+const axios = require('axios')
+const fetch = require('node-fetch')
+const fs = require('fs')
+const path = require('path')
 const strapi = require('@strapi/strapi')
 const qs = require('qs')
-const axios = require('axios')
+const { pipeline } = require('stream')
+const { promisify } = require('util')
 
 let instance
 
@@ -13,12 +18,21 @@ async function importData(response) {
             where: { facebook_id: event.id },
         })
 
+        const image = path.join('images', `${event.cover.id}.jpg`)
+
         const data = {
             facebook_title: parseTitle(event.name),
             facebook_description: event.description,
             start: event.start_time,
             canceled: event.is_canceled,
-            image: event.cover.source,
+            image,
+        }
+
+        const filepath = path.resolve(instance.dirs.static.public, image)
+        if (!fs.existsSync(filepath)) {
+            const response = await fetch(event.cover.source)
+            const streamPipeline = promisify(pipeline)
+            await streamPipeline(response.body, fs.createWriteStream(filepath))
         }
 
         if (entry) {
