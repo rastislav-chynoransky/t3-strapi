@@ -42,6 +42,12 @@
     },
     "image": {
       "type": "string"
+    },
+    "facebook_price": {
+      "type": "float"
+    },
+    "facebook_type": {
+      "type": "string"
     }
   }
 }
